@@ -1,0 +1,56 @@
+# Logs
+logs/
+*.log
+*.log.*
+
+# Java
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+# Android Studio
+*.apk
+*.ap_
+*.aab
+bin/
+gen/
+build/
+captures/
+obj/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+local.properties
+.navigation
+
+# IntelliJ
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Android Profiling
+*.hprof
+
+# Google Services
+google-services.json
+
+# Gradle
+.gradle/
+!gradle-wrapper.jar
