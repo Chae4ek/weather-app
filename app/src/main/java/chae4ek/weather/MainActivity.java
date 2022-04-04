@@ -3,6 +3,7 @@ package chae4ek.weather;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textDegrees;
     private TextView textCity;
+    private ImageView weatherIcon;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         textDegrees = findViewById(R.id.textDegrees);
         textCity = findViewById(R.id.textCity);
+        weatherIcon = findViewById(R.id.weatherIcon);
 
         // TODO: remove
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                                 updateWeather();
                             } catch (final AlertException e) {
                                 AlertUtils.notify(this, e.msgId);
+                                e.printStackTrace();
                             }
                         });
 
@@ -50,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateWeather() {
         weather.waitForRequest();
 
+        // TODO: check weather.? for null
         textDegrees.setText(weather.findDegrees(Weather.DegreesType.CELSIUS));
         textCity.setText(weather.findLocation());
+        weatherIcon.setImageBitmap(weather.loadIcon());
     }
 }

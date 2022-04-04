@@ -13,6 +13,9 @@
     <string name="null_degrees_F">Degrees in Fahrenheit is null</string>
     <string name="null_degrees_K">Degrees in Kelvin is null</string>
     <string name="null_location">Location is null</string>
+    <string name="null_icon">Icon is null</string>
+    <string name="null_icon_url">Icon URL is null</string>
     <string name="error_get_html">Error when receiving an HTML document</string>
     <string name="error_get_weather">Error when parsing an HTML document for weather block</string>
+    <string name="error_get_weather_icon">Error when receiving a weather icon</string>
 </resources>

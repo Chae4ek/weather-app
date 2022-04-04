@@ -7,4 +7,9 @@ public class AlertException extends RuntimeException {
     public AlertException(final int msgId) {
         this.msgId = msgId;
     }
+
+    public AlertException(final Throwable cause, final int msgId) {
+        super(cause);
+        this.msgId = msgId;
+    }
 }

@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <color name="textBackground">#18182E</color>
     <color name="textSecondary">#8F939E</color>
+    <color name="textInactive">#4F525C</color>
 
     <style name="Theme.Weather" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->

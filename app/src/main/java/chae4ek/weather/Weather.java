@@ -1,10 +1,15 @@
 package chae4ek.weather;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import chae4ek.weather.alert.AlertException;
 import chae4ek.weather.alert.AlertUtils;
@@ -17,7 +22,7 @@ public class Weather {
         KELVIN
     }
 
-    private /*volatile*/ Element weather;
+    private Element weather;
     private String cityRequest;
 
     public void setCityName(final String cityName) {
@@ -54,6 +59,22 @@ public class Weather {
         return location.text();
     }
 
+    public Bitmap loadIcon() {
+        AlertUtils.assertNonNull(weather, R.string.null_weather);
+        final Element icon = weather.getElementById("wob_tci");
+        AlertUtils.assertNonNull(icon, R.string.null_icon);
+        String iconURL = icon.attr("src");
+        AlertUtils.assertNonNull(iconURL, R.string.null_icon_url);
+        final String[] urlParts = iconURL.split("/");
+        iconURL = "https://ssl.gstatic.com/onebox/weather/256/" + urlParts[urlParts.length - 1];
+
+        try (final InputStream in = new URL(iconURL).openStream()) {
+            return BitmapFactory.decodeStream(in);
+        } catch (final IOException e) {
+            throw new AlertException(e, R.string.error_get_weather_icon);
+        }
+    }
+
     /**
      * @deprecated TODO: make in a different thread
      */
@@ -71,7 +92,7 @@ public class Weather {
             AlertUtils.assertNonNull(weather, R.string.error_get_weather);
             return weather;
         } catch (final IOException e) {
-            throw new AlertException(R.string.error_get_html);
+            throw new AlertException(e, R.string.error_get_html);
         }
     }
 }
