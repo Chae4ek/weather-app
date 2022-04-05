@@ -21,8 +21,7 @@
             android:background="@drawable/weather_icon_bg"
             android:contentDescription="@string/weather_icon_desc"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textDegrees"
@@ -62,7 +61,19 @@
             android:textColor="@color/textInactive"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
+            app:layout_constraintTop_toBottomOf="@+id/textCity" />
+
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/description"
+            android:textAlignment="textEnd"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textTemperature"
+            app:layout_constraintTop_toTopOf="@+id/textTemperature" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputEditText
@@ -81,8 +92,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green"
+        android:stateListAnimator="@null"
         android:text="@string/refresh"
+        android:textAllCaps="false"
         android:textColor="@color/grey"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textDegrees;
     private TextView textCity;
     private ImageView weatherIcon;
+    private TextView textDescription;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         textDegrees = findViewById(R.id.textDegrees);
         textCity = findViewById(R.id.textCity);
         weatherIcon = findViewById(R.id.weatherIcon);
+        textDescription = findViewById(R.id.textDescription);
 
         // TODO: remove
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitNetwork().build());
@@ -48,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
                         });
 
         // TODO: https://developer.android.com/training/appbar/actions#java
-        // https://openweathermap.org/
+        // TODO: https://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+        // TODO: parse:
+        // https://search.yahoo.com/search?p=weather+
+        // https://www.bing.com/search?q=weather+
+        // https://duckduckgo.com/?q=weather+
     }
 
     private void updateWeather() {
@@ -58,5 +64,6 @@ public class MainActivity extends AppCompatActivity {
         textDegrees.setText(weather.findDegrees(Weather.DegreesType.CELSIUS));
         textCity.setText(weather.findLocation());
         weatherIcon.setImageBitmap(weather.loadIcon());
+        textDescription.setText(weather.findDescription());
     }
 }

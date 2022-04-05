@@ -28,7 +28,7 @@ public class Weather {
     public void setCityName(final String cityName) {
         final String cityName0;
         if (cityName == null || "".equals(cityName0 = cityName.trim())) cityRequest = null;
-        else cityRequest = '+' + cityName0.replace(' ', '+');
+        else cityRequest = cityName0.replace(' ', '+');
     }
 
     public String findDegrees(final DegreesType degreesType) {
@@ -59,6 +59,13 @@ public class Weather {
         return location.text();
     }
 
+    public String findDescription() {
+        AlertUtils.assertNonNull(weather, R.string.null_weather);
+        final Element description = weather.getElementById("wob_dc");
+        AlertUtils.assertNonNull(description, R.string.null_description);
+        return description.text();
+    }
+
     public Bitmap loadIcon() {
         AlertUtils.assertNonNull(weather, R.string.null_weather);
         final Element icon = weather.getElementById("wob_tci");
@@ -85,7 +92,7 @@ public class Weather {
 
     private Element requireWeather() {
         try {
-            String request = "https://www.google.com/search?q=weather";
+            String request = "https://www.google.com/search?q=weather+";
             if (cityRequest != null) request += cityRequest;
             final Document doc = Jsoup.connect(request).get();
             final Element weather = doc.getElementById("wob_wc");
