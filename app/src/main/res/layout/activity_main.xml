@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="16dp"
+  tools:context=".MainActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".MainActivity">
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <ImageView
+      android:id="@+id/weatherIcon"
+      android:layout_width="96dp"
+      android:layout_height="96dp"
+      android:background="@drawable/weather_icon_bg"
+      android:contentDescription="@string/weather_icon_desc"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/weatherIcon"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:background="@drawable/weather_icon_bg"
-            android:contentDescription="@string/weather_icon_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+      android:id="@+id/textDegrees"
+      android:textStyle="bold"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:text="@string/degrees"
+      android:textSize="34sp"
+      app:layout_constraintStart_toEndOf="@+id/weatherIcon"
+      app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textDegrees"
-            android:textStyle="bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/degrees"
-            android:textSize="34sp"
-            app:layout_constraintStart_toEndOf="@+id/weatherIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+      android:id="@+id/textCity"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:text="@string/unknown_city"
+      android:textAlignment="textEnd"
+      android:textColor="@color/textSecondary"
+      android:textSize="20sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/weatherIcon"
+      app:layout_constraintTop_toBottomOf="@+id/textDegrees" />
 
-        <TextView
-            android:id="@+id/textCity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/unknown_city"
-            android:textAlignment="textEnd"
-            android:textColor="@color/textSecondary"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/weatherIcon"
-            app:layout_constraintTop_toBottomOf="@+id/textDegrees" />
+    <TextView
+      android:id="@+id/textTemperature"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:background="@drawable/temperature_bg"
+      android:paddingLeft="7dp"
+      android:paddingTop="2dp"
+      android:paddingRight="7dp"
+      android:paddingBottom="2dp"
+      android:text="@string/temperature"
+      android:textColor="@color/textInactive"
+      android:textSize="16sp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
-        <TextView
-            android:id="@+id/textTemperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/temperature_bg"
-            android:paddingLeft="7dp"
-            android:paddingTop="2dp"
-            android:paddingRight="7dp"
-            android:paddingBottom="2dp"
-            android:text="@string/temperature"
-            android:textColor="@color/textInactive"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textCity" />
+    <TextView
+      android:id="@+id/textDescription"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:text="@string/description"
+      android:textAlignment="textEnd"
+      android:textSize="20sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/textTemperature"
+      app:layout_constraintTop_toTopOf="@+id/textTemperature" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/textDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/description"
-            android:textAlignment="textEnd"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textTemperature"
-            app:layout_constraintTop_toTopOf="@+id/textTemperature" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+  <com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/inputCity"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:hint="@string/city_name"
+    android:minHeight="48dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/btnRefresh"
+    app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/inputCity"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:hint="@string/city_name"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnRefresh"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:stateListAnimator="@null"
-        android:text="@string/refresh"
-        android:textAllCaps="false"
-        android:textColor="@color/grey"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+  <Button
+    android:id="@+id/btnRefresh"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/green"
+    android:stateListAnimator="@null"
+    android:text="@string/refresh"
+    android:textAllCaps="false"
+    android:textColor="@color/grey"
+    android:textSize="20sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
