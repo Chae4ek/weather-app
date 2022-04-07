@@ -3,6 +3,7 @@ package chae4ek.weather;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.Menu;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
     if (item.getItemId() == R.id.btn_switch_theme) {
-      // TODO: save settings
       isDarkTheme = !isDarkTheme;
       prefs.putBoolean("NightMode", isDarkTheme);
       prefs.apply();
@@ -47,6 +47,28 @@ public class MainActivity extends AppCompatActivity {
           isDarkTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  protected void onSaveInstanceState(@NonNull final Bundle outState) {
+    outState.putCharSequence("degrees", textDegrees.getText());
+    outState.putCharSequence("city", textCity.getText());
+    outState.putCharSequence("description", textDescription.getText());
+    final BitmapDrawable iconDrawable = (BitmapDrawable) weatherIcon.getDrawable();
+    if (iconDrawable != null) {
+      final Bitmap icon = iconDrawable.getBitmap();
+      outState.putParcelable("icon", icon);
+    }
+    super.onSaveInstanceState(outState);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    textDegrees.setText(savedInstanceState.getCharSequence("degrees"));
+    textCity.setText(savedInstanceState.getCharSequence("city"));
+    textDescription.setText(savedInstanceState.getCharSequence("description"));
+    weatherIcon.setImageBitmap(savedInstanceState.getParcelable("icon"));
   }
 
   @Override
