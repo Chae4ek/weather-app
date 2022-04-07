@@ -8,6 +8,7 @@
   tools:context=".MainActivity">
 
   <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/headerLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +32,7 @@
       android:layout_marginStart="16dp"
       android:text="@string/degrees"
       android:textSize="34sp"
+      android:textColor="@color/textColorMain"
       app:layout_constraintStart_toEndOf="@+id/weatherIcon"
       app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,11 +49,32 @@
       app:layout_constraintStart_toEndOf="@+id/weatherIcon"
       app:layout_constraintTop_toBottomOf="@+id/textDegrees" />
 
+  </androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/temperatureLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/headerLayout">
+
+    <TextView
+      android:id="@+id/textDescription"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="@string/description"
+      android:textAlignment="textEnd"
+      android:textSize="20sp"
+      android:textColor="@color/textColorMain"
+      android:layout_marginStart="16dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/textTemperature"
+      app:layout_constraintTop_toTopOf="parent" />
     <TextView
       android:id="@+id/textTemperature"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
       android:background="@drawable/temperature_bg"
       android:paddingLeft="7dp"
       android:paddingTop="2dp"
@@ -61,19 +84,7 @@
       android:textColor="@color/textInactive"
       android:textSize="16sp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textCity" />
-
-    <TextView
-      android:id="@+id/textDescription"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="16dp"
-      android:text="@string/description"
-      android:textAlignment="textEnd"
-      android:textSize="20sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@+id/textTemperature"
-      app:layout_constraintTop_toTopOf="@+id/textTemperature" />
+      app:layout_constraintTop_toTopOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <com.google.android.material.textfield.TextInputEditText
@@ -83,6 +94,9 @@
     android:layout_marginEnd="8dp"
     android:hint="@string/city_name"
     android:minHeight="48dp"
+    android:inputType="text"
+    android:imeOptions="actionDone"
+    android:textColor="@color/textColorMain"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/btnRefresh"
     app:layout_constraintStart_toStartOf="parent" />

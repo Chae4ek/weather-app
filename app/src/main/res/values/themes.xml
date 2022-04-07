@@ -3,6 +3,7 @@
   <color name="textBackground">#F1F1F1</color>
   <color name="textSecondary">#575757</color>
   <color name="textInactive">#A3A3A3</color>
+  <color name="textColorMain">@color/grey</color>
 
   <style name="Theme.Weather" parent="Theme.AppCompat.DayNight.DarkActionBar">
     <!-- Primary brand color. -->
@@ -16,7 +17,6 @@
     <!-- Android defaults. -->
     <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     <item name="android:windowBackground">@color/white</item>
-    <item name="android:textColor">@color/grey</item>
     <item name="android:textColorPrimary">@color/white</item>
   </style>
 </resources>

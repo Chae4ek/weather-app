@@ -3,7 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-    android:id="@+id/btn_switch_theme"
+    android:id="@+id/btnSwitchTheme"
     android:icon="@drawable/ic_switch_night_mode"
     android:title=""
     app:showAsAction="always" />

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
   private final WeatherParser weather = new GoogleParser();
   private final WeatherUpdater weatherUpdater = new WeatherUpdater(weather, this);
 
+  private TextInputEditText inputCity;
+
   private TextView textDegrees;
   private TextView textCity;
   private ImageView weatherIcon;
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-    if (item.getItemId() == R.id.btn_switch_theme) {
+    if (item.getItemId() == R.id.btnSwitchTheme) {
       isDarkTheme = !isDarkTheme;
       prefs.putBoolean("NightMode", isDarkTheme);
       prefs.apply();
@@ -90,23 +94,38 @@ public class MainActivity extends AppCompatActivity {
     weatherIcon = findViewById(R.id.weatherIcon);
     textDescription = findViewById(R.id.textDescription);
 
-    final TextInputEditText inputCity = findViewById(R.id.inputCity);
-    findViewById(R.id.btnRefresh)
-        .setOnClickListener(
-            view -> {
-              final Editable city = inputCity.getText();
-              weather.setCityName(city == null ? null : city.toString());
-              if (!weatherUpdater.compareAndStart()) {
-                // TODO: replace with a graphical update
-                AlertUtils.notify(this, R.string.error_refresh, Toast.LENGTH_SHORT);
-              }
-            });
+    inputCity = findViewById(R.id.inputCity);
 
-    // TODO: https://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
+    inputCity.setOnEditorActionListener(
+        (v, actionId, event) -> {
+          if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+            refresh();
+            return true;
+          }
+          return false;
+        });
+
+    findViewById(R.id.btnRefresh).setOnClickListener(view -> refresh());
+
     // TODO: parse:
     // https://search.yahoo.com/search?p=weather+
     // https://www.bing.com/search?q=weather+
     // https://duckduckgo.com/?q=weather+
+  }
+
+  private void refresh() {
+    final InputMethodManager imm =
+        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    imm.hideSoftInputFromWindow(
+        getCurrentFocus().getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
+    final Editable city = inputCity.getText();
+    weather.setCityName(city == null ? null : city.toString());
+    if (!weatherUpdater.compareAndStart()) {
+      // TODO: replace with a graphical update
+      AlertUtils.notify(this, R.string.error_refresh, Toast.LENGTH_SHORT);
+    }
   }
 
   @UiThread
