@@ -12,14 +12,21 @@ public class AlertUtils {
    * @deprecated only for tests
    */
   @Deprecated
+  @UiThread
   public static void notify(final Context context, final String msg) {
     Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
   }
 
   /** Show the notification of msgId */
   @UiThread
+  public static void notify(final Context context, final int msgId, final int duration) {
+    Toast.makeText(context, msgId, duration).show();
+  }
+
+  /** Show the notification of msgId */
+  @UiThread
   public static void notify(final Context context, final AlertException e) {
-    Toast.makeText(context, e.msgId, Toast.LENGTH_LONG).show();
+    notify(context, e.msgId, Toast.LENGTH_LONG);
     // TODO: log
     e.printStackTrace();
   }

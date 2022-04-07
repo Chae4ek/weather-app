@@ -17,30 +17,37 @@ public abstract class AtomicTask<A extends Activity> {
     this.activity = activity;
     handler =
         (t, e) -> {
+          isRunning.set(false);
           if (e instanceof AlertException) {
             activity.runOnUiThread(() -> AlertUtils.notify(activity, (AlertException) e));
           }
         };
   }
 
-  /** Run the task in another thread if it is not running */
-  public final void compareAndStart() {
-    if (isRunning.compareAndSet(false, true)) {
-      final Thread t =
-          new Thread(
-              () -> {
-                run();
-                isRunning.set(false);
-              });
-      t.setUncaughtExceptionHandler(handler);
-      t.start();
-    }
+  /**
+   * Run the task in another thread if it is not running
+   *
+   * @return true if the task is successfully started
+   */
+  public final boolean compareAndStart() {
+    if (!isRunning.compareAndSet(false, true)) return false;
+    preRun();
+    final Thread t =
+        new Thread(
+            () -> {
+              run();
+              isRunning.set(false);
+            });
+    t.setUncaughtExceptionHandler(handler);
+    t.start();
+    return true;
   }
+
+  public void preRun() {}
 
   @WorkerThread
   public abstract void run();
 
-  @WorkerThread
   public void tryRunOnUi(final Runnable task) {
     activity.runOnUiThread(
         () -> {

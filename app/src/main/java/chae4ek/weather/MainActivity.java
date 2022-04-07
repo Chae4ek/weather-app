@@ -10,10 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import chae4ek.weather.alert.AlertUtils;
 import chae4ek.weather.parsers.GoogleParser;
 import chae4ek.weather.parsers.WeatherParser;
 import com.google.android.material.textfield.TextInputEditText;
@@ -94,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
             view -> {
               final Editable city = inputCity.getText();
               weather.setCityName(city == null ? null : city.toString());
-              weatherUpdater.compareAndStart();
+              if (!weatherUpdater.compareAndStart()) {
+                // TODO: replace with a graphical update
+                AlertUtils.notify(this, R.string.error_refresh, Toast.LENGTH_SHORT);
+              }
             });
 
     // TODO: https://stackoverflow.com/questions/3400028/close-virtual-keyboard-on-button-press
