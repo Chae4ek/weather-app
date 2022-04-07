@@ -6,14 +6,23 @@ import androidx.annotation.WorkerThread;
 public interface WeatherParser {
 
   enum DegreesType {
-    CELSIUS,
-    FAHRENHEIT,
-    KELVIN
+    CELSIUS("°C"),
+    FAHRENHEIT("°F"),
+    KELVIN("K");
+
+    public final String name;
+
+    DegreesType(final String name) {
+      this.name = name;
+    }
   }
 
   void setCityName(String cityName);
 
-  String findDegrees(DegreesType degreesType);
+  /**
+   * @return degrees ordered by {@link DegreesType#ordinal}
+   */
+  String[] findDegrees();
 
   String findLocation();
 

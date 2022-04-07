@@ -18,9 +18,9 @@ public class WeatherUpdater extends AtomicTask<MainActivity> {
   }
 
   /** Schedule to set the weather parser when this task is done */
-  public void scheduleToSetWeather(@NonNull final WeatherParser weather) {
+  public void scheduleToSetWeatherParser(@NonNull final WeatherParser weatherParser) {
     if (isRunning.compareAndSet(false, true)) {
-      this.weather = weather;
+      weather = weatherParser;
       isRunning.set(false);
     } else {
       // TODO: schedule to set the weather when this task is done
@@ -37,7 +37,7 @@ public class WeatherUpdater extends AtomicTask<MainActivity> {
   @Override
   public void run() {
     weather.waitForRequest();
-    final String degrees = weather.findDegrees(WeatherParser.DegreesType.CELSIUS);
+    final String[] degrees = weather.findDegrees();
     AlertUtils.assertNonNull(degrees, R.string.error404_degrees);
     final String location = weather.findLocation();
     AlertUtils.assertNonNull(location, R.string.error404_location);
@@ -47,7 +47,7 @@ public class WeatherUpdater extends AtomicTask<MainActivity> {
     AlertUtils.assertNonNull(icon, R.string.error404_icon);
     tryRunOnUi(
         () -> {
-          activity.setTextDegrees(degrees);
+          activity.updateDegrees(degrees);
           activity.setTextCity(location);
           activity.setTextDescription(description);
           activity.setWeatherIcon(icon);

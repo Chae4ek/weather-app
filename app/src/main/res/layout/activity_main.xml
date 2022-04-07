@@ -22,15 +22,16 @@
       android:background="@drawable/weather_icon_bg"
       android:contentDescription="@string/weather_icon_desc"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="ImageContrastCheck" />
 
     <TextView
       android:id="@+id/textDegrees"
       android:textStyle="bold"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
-      android:text="@string/degrees"
+      android:text="--"
       android:textSize="34sp"
       android:textColor="@color/textColorMain"
       app:layout_constraintStart_toEndOf="@+id/weatherIcon"
@@ -45,9 +46,34 @@
       android:textAlignment="textEnd"
       android:textColor="@color/textSecondary"
       android:textSize="20sp"
+      android:layout_marginTop="4dp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toEndOf="@+id/weatherIcon"
       app:layout_constraintTop_toBottomOf="@+id/textDegrees" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/btnDegreesType"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:clickable="true"
+      android:contentDescription="@string/degrees_type"
+      android:layout_marginStart="16dp"
+      app:backgroundTint="@color/btnDegreesType"
+      app:layout_constraintStart_toEndOf="@+id/textDegrees"
+      app:layout_constraintTop_toTopOf="parent"
+      android:focusable="true" />
+    <TextView
+      android:id="@+id/textDegreesType"
+      android:text="°C"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:elevation="34dp"
+      android:textColor="@android:color/white"
+      android:textSize="34sp"
+      android:textAlignment="center"
+      app:layout_constraintBottom_toBottomOf="@+id/btnDegreesType"
+      app:layout_constraintEnd_toEndOf="@+id/btnDegreesType"
+      app:layout_constraintStart_toStartOf="@+id/btnDegreesType"
+      app:layout_constraintTop_toTopOf="@+id/btnDegreesType" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,14 +110,15 @@
       android:textColor="@color/textInactive"
       android:textSize="16sp"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintTop_toTopOf="parent"
+      tools:ignore="TextContrastCheck" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 
   <com.google.android.material.textfield.TextInputEditText
     android:id="@+id/inputCity"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
+    android:layout_marginEnd="16dp"
     android:hint="@string/city_name"
     android:minHeight="48dp"
     android:inputType="text"
@@ -99,7 +126,8 @@
     android:textColor="@color/textColorMain"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/btnRefresh"
-    app:layout_constraintStart_toStartOf="parent" />
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="TextContrastCheck" />
 
   <Button
     android:id="@+id/btnRefresh"
@@ -112,6 +140,7 @@
     android:textColor="@color/grey"
     android:textSize="20sp"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent" />
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/inputCity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

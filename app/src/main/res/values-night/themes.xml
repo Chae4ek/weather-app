@@ -4,6 +4,7 @@
   <color name="textSecondary">#8F939E</color>
   <color name="textInactive">#4F525C</color>
   <color name="textColorMain">@color/white</color>
+  <color name="btnDegreesType">#196E59</color>
 
   <style name="Theme.Weather" parent="Theme.AppCompat.DayNight.DarkActionBar">
     <!-- Primary brand color. -->

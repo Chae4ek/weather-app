@@ -14,12 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import chae4ek.weather.alert.AlertUtils;
 import chae4ek.weather.parsers.GoogleParser;
 import chae4ek.weather.parsers.WeatherParser;
+import chae4ek.weather.parsers.WeatherParser.DegreesType;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
   private TextInputEditText inputCity;
 
+  private TextView textDegreesType;
   private TextView textDegrees;
   private TextView textCity;
   private ImageView weatherIcon;
@@ -36,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
   private SharedPreferences.Editor prefs;
   private boolean isDarkTheme;
+  private static final String[] degreesNull = new String[DegreesType.values().length];
+  private String[] degrees = degreesNull;
+  private int selectedDegreesType;
+
+  static {
+    for (int i = 0; i < DegreesType.values().length; ++i) degreesNull[i] = "--";
+  }
 
   private InputMethodManager imm;
 
@@ -59,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onSaveInstanceState(@NonNull final Bundle outState) {
-    outState.putCharSequence("degrees", textDegrees.getText());
+    outState.putInt("degreesType", selectedDegreesType);
+    outState.putStringArray("degrees", degrees == degreesNull ? null : degrees);
     outState.putCharSequence("city", textCity.getText());
     outState.putCharSequence("description", textDescription.getText());
     final BitmapDrawable iconDrawable = (BitmapDrawable) weatherIcon.getDrawable();
@@ -73,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onRestoreInstanceState(@NonNull final Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
-    textDegrees.setText(savedInstanceState.getCharSequence("degrees"));
+    selectedDegreesType = savedInstanceState.getInt("degreesType");
+    updateDegrees(savedInstanceState.getStringArray("degrees"));
     textCity.setText(savedInstanceState.getCharSequence("city"));
     textDescription.setText(savedInstanceState.getCharSequence("description"));
     weatherIcon.setImageBitmap(savedInstanceState.getParcelable("icon"));
@@ -91,10 +103,13 @@ public class MainActivity extends AppCompatActivity {
     AppCompatDelegate.setDefaultNightMode(
         isDarkTheme ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
+    textDegreesType = findViewById(R.id.textDegreesType);
     textDegrees = findViewById(R.id.textDegrees);
     textCity = findViewById(R.id.textCity);
     weatherIcon = findViewById(R.id.weatherIcon);
     textDescription = findViewById(R.id.textDescription);
+    textCity.setText(null);
+    textDescription.setText(null);
 
     imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     inputCity = findViewById(R.id.inputCity);
@@ -109,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
     findViewById(R.id.btnRefresh).setOnClickListener(view -> refresh());
+
+    findViewById(R.id.btnDegreesType)
+        .setOnClickListener(
+            view -> {
+              if (++selectedDegreesType == DegreesType.values().length) selectedDegreesType = 0;
+              updateDegrees(degrees);
+            });
 
     // TODO: parse:
     // https://search.yahoo.com/search?p=weather+
@@ -129,8 +151,10 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @UiThread
-  public void setTextDegrees(final String degrees) {
-    textDegrees.setText(degrees);
+  public void updateDegrees(@Nullable final String[] degrees) {
+    this.degrees = degrees == null ? degreesNull : degrees;
+    textDegreesType.setText(DegreesType.values()[selectedDegreesType].name);
+    textDegrees.setText(this.degrees[selectedDegreesType]);
   }
 
   @UiThread

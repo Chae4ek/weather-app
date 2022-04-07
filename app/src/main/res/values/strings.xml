@@ -1,18 +1,17 @@
 <resources>
   <string name="app_name">Weather</string>
-  <string name="degrees">-- °C</string>
+  <string name="degrees_type">Degrees type</string>
   <string name="weather_icon_desc">Weather icon</string>
   <string name="unknown_city">Unknown City,\nKick REFRESH button!</string>
   <string name="city_name">City Name</string>
   <string name="temperature">Temperature</string>
-  <string name="description">Undefined Description</string>
+  <string name="description">Undefined Description,\nblah-blah</string>
   <string name="refresh">Refresh</string>
   <!-- Info messages -->
   <string name="refresh_start">Updating the weather</string>
   <string name="refresh_end">Weather is updated</string>
   <string name="error_refresh">Weather is already updating</string>
   <!-- Error messages -->
-  <string name="null_degreesType">DegreesType is null</string>
   <string name="null_weather">Weather is null</string>
   <string name="null_degrees_C">Degrees in Celsius is null</string>
   <string name="null_degrees_F">Degrees in Fahrenheit is null</string>

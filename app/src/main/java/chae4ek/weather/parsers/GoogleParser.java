@@ -25,25 +25,21 @@ public class GoogleParser implements WeatherParser {
   }
 
   @Override
-  public String findDegrees(final DegreesType degreesType) {
-    AlertUtils.assertNonNull(degreesType, R.string.null_degreesType);
+  public String[] findDegrees() {
     AlertUtils.assertNonNull(weather, R.string.null_weather);
-    final Element degrees;
-    switch (degreesType) {
-      case CELSIUS:
-        degrees = weather.getElementById("wob_tm");
-        AlertUtils.assertNonNull(degrees, R.string.null_degrees_C);
-        return degrees.text() + " °C";
-      case KELVIN:
-        degrees = weather.getElementById("wob_tm"); // K = °C + 273
-        AlertUtils.assertNonNull(degrees, R.string.null_degrees_K);
-        return Integer.parseInt(degrees.text()) + 273 + " K";
-      case FAHRENHEIT:
-        degrees = weather.getElementById("wob_ttm");
-        AlertUtils.assertNonNull(degrees, R.string.null_degrees_F);
-        return degrees.text() + " °F";
-    }
-    return null;
+    final String[] res = new String[DegreesType.values().length];
+
+    Element degrees = weather.getElementById("wob_tm");
+    AlertUtils.assertNonNull(degrees, R.string.null_degrees_C);
+    res[0] = degrees.text();
+
+    res[2] = Integer.toString(Integer.parseInt(res[0]) + 273);
+
+    degrees = weather.getElementById("wob_ttm");
+    AlertUtils.assertNonNull(degrees, R.string.null_degrees_F);
+    res[1] = degrees.text();
+
+    return res;
   }
 
   @Override
