@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
   private SharedPreferences.Editor prefs;
   private boolean isDarkTheme;
 
+  private InputMethodManager imm;
+
   @Override
   public boolean onCreateOptionsMenu(final Menu menu) {
     getMenuInflater().inflate(R.menu.action_bar, menu);
@@ -94,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
     weatherIcon = findViewById(R.id.weatherIcon);
     textDescription = findViewById(R.id.textDescription);
 
+    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     inputCity = findViewById(R.id.inputCity);
 
     inputCity.setOnEditorActionListener(
         (v, actionId, event) -> {
           if (actionId == EditorInfo.IME_ACTION_DONE) {
-
             refresh();
             return true;
           }
@@ -115,10 +117,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void refresh() {
-    final InputMethodManager imm =
-        (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     imm.hideSoftInputFromWindow(
-        getCurrentFocus().getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        inputCity.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
     final Editable city = inputCity.getText();
     weather.setCityName(city == null ? null : city.toString());
