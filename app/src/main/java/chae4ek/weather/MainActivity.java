@@ -2,6 +2,7 @@ package chae4ek.weather;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -22,20 +23,33 @@ import chae4ek.weather.alert.AlertUtils;
 import chae4ek.weather.parsers.GoogleParser;
 import chae4ek.weather.parsers.WeatherParser;
 import chae4ek.weather.parsers.WeatherParser.DegreesType;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.LineDataSet.Mode;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.textfield.TextInputEditText;
+import java.util.Iterator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
   private final WeatherParser weather = new GoogleParser();
   private final WeatherUpdater weatherUpdater = new WeatherUpdater(weather, this);
 
-  private TextInputEditText inputCity;
+  private Resources resources;
 
+  private TextInputEditText inputCity;
   private TextView textDegreesType;
   private TextView textDegrees;
   private TextView textCity;
   private ImageView weatherIcon;
   private TextView textDescription;
+
+  private LineDataSet lineDataSet;
+  private LineData lineData;
+  private LineChart temperatureChart;
 
   private SharedPreferences.Editor prefs;
   private boolean isDarkTheme;
@@ -78,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
       final Bitmap icon = iconDrawable.getBitmap();
       outState.putParcelable("icon", icon);
     }
+    final List<Entry> points = lineDataSet.getValues();
+    final int[] intPoints = new int[points.size()];
+    final Iterator<Entry> it = points.iterator();
+    for (int i = 0; i < intPoints.length; ++i) intPoints[i] = (int) it.next().getY();
+    outState.putIntArray("temperature", intPoints);
     super.onSaveInstanceState(outState);
   }
 
@@ -89,12 +108,22 @@ public class MainActivity extends AppCompatActivity {
     textCity.setText(savedInstanceState.getCharSequence("city"));
     textDescription.setText(savedInstanceState.getCharSequence("description"));
     weatherIcon.setImageBitmap(savedInstanceState.getParcelable("icon"));
+
+    final int[] points = savedInstanceState.getIntArray("temperature");
+    if (points != null) {
+      lineDataSet.clear();
+      for (int i = 0; i < points.length; ++i) lineDataSet.addEntry(new Entry(i, points[i]));
+      lineData.notifyDataChanged();
+      temperatureChart.notifyDataSetChanged();
+      temperatureChart.invalidate();
+    }
   }
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    resources = getResources();
 
     final SharedPreferences prefs = getSharedPreferences("AppSettingPrefs", Context.MODE_PRIVATE);
     this.prefs = prefs.edit();
@@ -132,10 +161,79 @@ public class MainActivity extends AppCompatActivity {
               updateDegrees(degrees);
             });
 
+    prepareTemperatureGraph();
+
     // TODO: parse:
     // https://search.yahoo.com/search?p=weather+
     // https://www.bing.com/search?q=weather+
     // https://duckduckgo.com/?q=weather+
+  }
+
+  @UiThread
+  public void updateTemperatureGraph(@NonNull final String[][] temperature) {
+    lineDataSet.clear();
+    for (int i = 0; i < 8 /*temperature.length*/; ++i) {
+      // final String degree = temperature[i][selectedDegreesType];
+      final float val = (int) (Math.random() * 70) - 35;
+      lineDataSet.addEntry(new Entry(i, val /*Integer.parseInt(degree)*/));
+    }
+    lineData.notifyDataChanged();
+    temperatureChart.notifyDataSetChanged();
+    temperatureChart.invalidate();
+  }
+
+  private void prepareTemperatureGraph() {
+    final int yellow = resources.getColor(R.color.yellow);
+    final int bgColor = resources.getColor(R.color.background);
+    lineDataSet = getDataSet(yellow, bgColor);
+    lineData = new LineData(lineDataSet);
+    temperatureChart = findViewById(R.id.temperature);
+    setupChartAndData(temperatureChart, lineData);
+  }
+
+  private LineDataSet getDataSet(final int mainColor, final int bgColor) {
+    final LineDataSet dataSet = new LineDataSet(null, "DataSet");
+    dataSet.setMode(Mode.CUBIC_BEZIER);
+
+    dataSet.setDrawFilled(true);
+    dataSet.setFillAlpha(110);
+    dataSet.setFillColor(mainColor);
+
+    dataSet.setColor(mainColor);
+
+    dataSet.setCircleRadius(5f);
+    dataSet.setCircleHoleRadius(2.5f);
+    dataSet.setCircleColor(mainColor);
+    dataSet.setCircleHoleColor(bgColor);
+
+    dataSet.setFillFormatter((dataSet1, dataProvider) -> dataProvider.getYChartMin());
+
+    return dataSet;
+  }
+
+  private void setupChartAndData(final LineChart chart, final LineData data) {
+    data.setValueTextColor(resources.getColor(R.color.textColorMain));
+    data.setValueTextSize(16f);
+    data.setValueFormatter(
+        new ValueFormatter() {
+          @Override
+          public String getPointLabel(final Entry entry) {
+            return Integer.toString((int) entry.getY());
+          }
+        });
+
+    chart.getDescription().setEnabled(false);
+    chart.setTouchEnabled(false);
+
+    chart.getXAxis().setEnabled(false);
+    chart.getAxisLeft().setEnabled(false);
+    chart.getAxisRight().setEnabled(false);
+    chart.getAxisLeft().setSpaceTop(50f);
+    chart.getAxisLeft().setSpaceBottom(50f);
+
+    chart.setData(data);
+
+    chart.getLegend().setEnabled(false);
   }
 
   private void refresh() {

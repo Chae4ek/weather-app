@@ -27,10 +27,10 @@ public class GoogleParser implements WeatherParser {
   @Override
   public String[] findDegrees() {
     AlertUtils.assertNonNull(weather, R.string.null_weather);
-    final String[] res = new String[DegreesType.values().length];
 
     Element degrees = weather.getElementById("wob_tm");
     AlertUtils.assertNonNull(degrees, R.string.null_degrees_C);
+    final String[] res = new String[DegreesType.values().length];
     res[0] = degrees.text();
 
     res[2] = Integer.toString(Integer.parseInt(res[0]) + 273);
@@ -40,6 +40,27 @@ public class GoogleParser implements WeatherParser {
     res[1] = degrees.text();
 
     return res;
+  }
+
+  @Override
+  public String[][] findTemperature() {
+    // TODO: cannot parse
+    throw new AlertException(R.string.null_temperature);
+    /*AlertUtils.assertNonNull(weather, R.string.null_weather);
+
+    final Elements temperature = weather.getElementsByClass("");
+    System.out.println(temperature);
+    // if (temperature.size() != 2) throw new AlertException(R.string.null_temperature);
+
+    final String[][] res = new String[8][DegreesType.values().length];
+    for (int i = 0, j = 0; j < 8; ++j) {
+      res[j][0] = temperature.get(i).text();
+      res[j][1] = temperature.get(i + 1).text();
+      res[j][2] = Integer.toString(Integer.parseInt(res[j][0]) + 273);
+      i += 6;
+    }
+
+    return res;*/
   }
 
   @Override

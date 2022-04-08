@@ -24,6 +24,12 @@ public interface WeatherParser {
    */
   String[] findDegrees();
 
+  /**
+   * @return matrix 8x3, where the rows are temperature for every 3 hours (°C, °F, K) starting at
+   *     the moment
+   */
+  String[][] findTemperature();
+
   String findLocation();
 
   String findDescription();

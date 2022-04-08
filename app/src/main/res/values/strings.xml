@@ -5,14 +5,17 @@
   <string name="unknown_city">Unknown City,\nKick REFRESH button!</string>
   <string name="city_name">City Name</string>
   <string name="temperature">Temperature</string>
-  <string name="description">Undefined Description,\nblah-blah</string>
+  <string name="weather_description">Undefined Description,\nblah-blah</string>
+  <string name="temperature_description">Day temperature graph</string>
   <string name="refresh">Refresh</string>
+  <string name="current_temperature">Current temperature</string>
   <!-- Info messages -->
   <string name="refresh_start">Updating the weather</string>
   <string name="refresh_end">Weather is updated</string>
   <string name="error_refresh">Weather is already updating</string>
   <!-- Error messages -->
   <string name="null_weather">Weather is null</string>
+  <string name="null_temperature">Temperature is null</string>
   <string name="null_degrees_C">Degrees in Celsius is null</string>
   <string name="null_degrees_F">Degrees in Fahrenheit is null</string>
   <string name="null_degrees_K">Degrees in Kelvin is null</string>
@@ -27,4 +30,5 @@
   <string name="error404_location">Location is not found in a document</string>
   <string name="error404_description">Description is not found in a document</string>
   <string name="error404_icon">Icon is not found in a document</string>
+  <string name="error404_temperature">Temperature is not found in a document</string>
 </resources>

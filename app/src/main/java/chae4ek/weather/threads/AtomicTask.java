@@ -20,7 +20,7 @@ public abstract class AtomicTask<A extends Activity> {
           isRunning.set(false);
           if (e instanceof AlertException) {
             activity.runOnUiThread(() -> AlertUtils.notify(activity, (AlertException) e));
-          }
+          } else throw new RuntimeException(e);
         };
   }
 

@@ -45,12 +45,18 @@ public class WeatherUpdater extends AtomicTask<MainActivity> {
     AlertUtils.assertNonNull(description, R.string.error404_description);
     final Bitmap icon = weather.loadIcon();
     AlertUtils.assertNonNull(icon, R.string.error404_icon);
+
+    // TODO
+    // final String[][] temperature = weather.findTemperature();
+    // AlertUtils.assertNonNull(temperature, R.string.error404_temperature);
+
     tryRunOnUi(
         () -> {
           activity.updateDegrees(degrees);
           activity.setTextCity(location);
           activity.setTextDescription(description);
           activity.setWeatherIcon(icon);
+          activity.updateTemperatureGraph(null);
           AlertUtils.notify(activity, R.string.refresh_end, Toast.LENGTH_SHORT);
         });
   }

@@ -5,6 +5,7 @@
   <color name="textInactive">#4F525C</color>
   <color name="textColorMain">@color/white</color>
   <color name="btnDegreesType">#196E59</color>
+  <color name="background">@color/darkest_blue</color>
 
   <style name="Theme.Weather" parent="Theme.AppCompat.DayNight.DarkActionBar">
     <!-- Primary brand color. -->
@@ -17,7 +18,7 @@
     <item name="colorOnSecondary">@color/black</item>
     <!-- Android defaults. -->
     <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-    <item name="android:windowBackground">@color/darkest_blue</item>
+    <item name="android:windowBackground">@color/background</item>
     <item name="android:textColorPrimary">@color/white</item>
   </style>
 </resources>
